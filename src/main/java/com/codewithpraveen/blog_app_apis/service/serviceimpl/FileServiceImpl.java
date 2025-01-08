@@ -34,17 +34,15 @@ public class FileServiceImpl  implements FileService{
 
         // random name generate file
         String randomId = UUID.randomUUID().toString();
-        String fileName1 = "";
-        if (name != null) {
-            fileName1 = randomId.concat(name.substring(name.lastIndexOf(".")));
-        }
+        String fileName1 = randomId.concat(name.substring(name.lastIndexOf(".")));
+      
 
         // full path 
         String filePath = path + File.separator + fileName1;
 
         File f = new File(path);
         if (!f.exists()) {
-            f.mkdirs();
+            f.mkdir();
         } 
 
     Files.copy(file.getInputStream() , Paths.get(filePath));
