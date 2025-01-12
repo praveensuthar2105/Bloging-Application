@@ -10,5 +10,9 @@ public interface UserService {
     UserDto updateUser(UserDto user,Integer id);
     void deleteUser(int id);
     List<UserDto> getAllUsers();
+    static Object loadUserByUsername(String username) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'loadUserByUsername'");
+    }
 
 }
