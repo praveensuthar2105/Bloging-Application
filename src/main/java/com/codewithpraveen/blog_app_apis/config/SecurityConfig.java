@@ -26,10 +26,13 @@ import com.codewithpraveen.blog_app_apis.security.UserDetailsServiceImpl;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 @EnableWebMvc
-public class SecurityConfig  {
+public class SecurityConfig {
 
     public static final String[] PUBLIC_URLS = {
-        "/api/users/**",
+            "/api/users/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
 
     };
 
@@ -43,17 +46,16 @@ public class SecurityConfig  {
     private JwtAuthenticationEntryPoint Point;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth.requestMatchers(PUBLIC_URLS).permitAll()
-        .requestMatchers(HttpMethod.GET).permitAll()
-        .anyRequest().authenticated())
-        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .exceptionHandling(excep -> excep.authenticationEntryPoint(Point))
-        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .authorizeHttpRequests(auth -> auth.requestMatchers(PUBLIC_URLS).permitAll()
+                        .requestMatchers(HttpMethod.GET).permitAll()
+                        .anyRequest().authenticated())
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(excep -> excep.authenticationEntryPoint(Point))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
 
-        
     }
 
     @Bean
@@ -73,13 +75,11 @@ public class SecurityConfig  {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-        
-    }
-    
-    
-    // public void configure(AuthenticationManagerBuilder auth) throws Exception {
-    //     auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    // }
 
+    }
+
+    // public void configure(AuthenticationManagerBuilder auth) throws Exception {
+    // auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    // }
 
 }

@@ -10,12 +10,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.codewithpraveen.blog_app_apis.Entites.Role;
 import com.codewithpraveen.blog_app_apis.config.AppConstant;
 import com.codewithpraveen.blog_app_apis.repository.RoleRepo;
 
 @SpringBootApplication
+@EnableWebMvc
 public class BlogAppApisApplication implements CommandLineRunner {
 
 	@Autowired
