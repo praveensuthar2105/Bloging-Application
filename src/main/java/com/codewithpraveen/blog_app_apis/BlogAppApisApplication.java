@@ -1,20 +1,25 @@
 package com.codewithpraveen.blog_app_apis;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+
+import com.codewithpraveen.blog_app_apis.Entites.Role;
+import com.codewithpraveen.blog_app_apis.config.AppConstant;
+import com.codewithpraveen.blog_app_apis.repository.RoleRepo;
 
 @SpringBootApplication
 public class BlogAppApisApplication implements CommandLineRunner {
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private RoleRepo roleRepo;
 	public static void main(String[] args) {
 		SpringApplication.run(BlogAppApisApplication.class, args);
 	}
@@ -25,12 +30,28 @@ public class BlogAppApisApplication implements CommandLineRunner {
 
 	@Bean
     public MultipartResolver multipartResolver() {
-    return new StandardServletMultipartResolver();
+	return new StandardServletMultipartResolver();
 }
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(this.passwordEncoder.encode("abc"));
-		System.out.println(this.passwordEncoder.encode("abcd"));
+		try {
+			Role role = new Role();
+			role.setId(AppConstant.ADMIN_USER);
+			role.setName("Admin_User");
+
+			Role role1 = new Role();
+			role1.setId(AppConstant.NORMAL_USER);
+			role1.setName("Normal_User");
+
+			List<Role> roles = List.of(role, role1);
+			List<Role> result = this.roleRepo.saveAll(roles);
+
+			result.forEach(r -> System.out.println(r.getName()));
+		} catch(Exception e) {
+			e.printStackTrace();
+
+		}
 	}
+
 
 }

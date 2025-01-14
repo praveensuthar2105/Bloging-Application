@@ -9,9 +9,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiResponse {
-
-    private String message;
-    private boolean success;
-
+public class JwtAuthRequest {
+    private String username;
+    private String password;
 }
